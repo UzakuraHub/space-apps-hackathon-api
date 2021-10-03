@@ -1,7 +1,16 @@
+import axios from 'axios';
 import { user as User, userProfile } from '../db/models';
 import { signToken } from '../utils/token';
 
+
 class UserController {
+
+  async getLocations (req, res) {
+    const countries = await axios.get('https://corona.lmao.ninja/v2/countries');
+    const found = countries.data.filter(c => c.country.toLowerCase().includes(req.query.q.toLowerCase())).map(c => c.country);
+
+    return res.status(200).json({status: 200, message: `(${found.length}) results found!`, data: found})
+  }
 
   async updateProfile (req, res) {
     const changes = req.body;
