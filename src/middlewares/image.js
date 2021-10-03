@@ -1,3 +1,5 @@
+import cloudinary from '../config/cloudinary';
+
 class ImageHandler {
   constructor(Utils) {
     this.Utils = Utils;
@@ -6,8 +8,10 @@ class ImageHandler {
   handleUpload = async (req, res, next) => {
     try {
       const { files } = req;
-      const { tempFilePath } = files.photo;
-      const { url, public_id } = await this.Utils.Image.upload(tempFilePath);
+      if (!files || !files.image) return next();
+
+      const { tempFilePath } = files.image;
+      const { url, public_id } = await cloudinary.upload(tempFilePath);
 
       req.photo = url;
       req.photoPublicId = public_id;

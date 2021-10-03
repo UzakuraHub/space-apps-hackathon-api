@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   userProfile.init({
     name: DataTypes.STRING,
+    image: DataTypes.STRING,
     location: DataTypes.STRING,
     language: DataTypes.STRING,
     userId: DataTypes.INTEGER,

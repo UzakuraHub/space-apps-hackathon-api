@@ -10,9 +10,9 @@ class AuthMiddlewares {
       if (!token)
         return this.Utils.Response.error(res, 401, null, 'Invalid token');
 
-      const { email } = this.Utils.Auth.verifyToken(token);
+      const { email } = this.Utils.verifyToken(token);
 
-      const user = await this.Services.user.findOne({ email });
+      const user = await this.Services.user.findOne({ email }, {include: {model: this.Services.userProfile, as: 'profile'}});
       req.user = user.dataValues;
 
       return next();
