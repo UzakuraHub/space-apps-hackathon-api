@@ -12,8 +12,9 @@ class AuthMiddlewares {
 
       const { email } = this.Utils.verifyToken(token);
 
-      const user = await this.Services.user.findOne({ email }, {include: {model: this.Services.userProfile, as: 'profile'}});
+      const user = await this.Services.user.findOne({ where: {email}, include: {model: this.Services.userProfile, as: 'profile'}});
       req.user = user.dataValues;
+      req.user.profile = req.user.profile.dataValues;
 
       return next();
     } catch (error) {
